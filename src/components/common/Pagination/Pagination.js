@@ -5,7 +5,6 @@ import { Link } from 'react-router-dom';
 export default class Pagination extends PureComponent {
   static propTypes = {
     totalItems: PropTypes.number.isRequired,
-    onChangePage: PropTypes.func.isRequired,
     generateLinkForPage: PropTypes.func.isRequired,
     pageSize: PropTypes.number,
     initialPage: PropTypes.oneOfType([PropTypes.number, PropTypes.string])
@@ -26,16 +25,7 @@ export default class Pagination extends PureComponent {
     }
   }
 
-  componentDidUpdate(prevProps) {
-    const { totalItems, initialPage } = this.props;
-    // reset page if items array has changed
-    if (totalItems !== prevProps.totalItems) {
-      this.setPage(initialPage);
-    }
-  }
-
   setPage(page) {
-    const { onChangePage } = this.props;
     const { pager } = this.state;
 
     if (page < 1 || page > pager.totalPages) {
@@ -47,9 +37,6 @@ export default class Pagination extends PureComponent {
 
     // update state
     this.setState({ pager: newPager });
-
-    // call change page function in parent component
-    onChangePage(newPager.currentPage);
   }
 
   getPager(currentPage = 1) {

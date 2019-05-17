@@ -49,10 +49,6 @@ class UsersListContainer extends PureComponent {
     }
   };
 
-  onChangePage = page => {
-    console.log(page);
-  };
-
   generateLinkForPage = page => usersRoute(page);
 
   render() {
@@ -73,7 +69,6 @@ class UsersListContainer extends PureComponent {
         <Pagination
           totalItems={totalItems}
           pageSize={resultsPerPage}
-          onChangePage={this.onChangePage}
           generateLinkForPage={this.generateLinkForPage}
           initialPage={page}
         />
