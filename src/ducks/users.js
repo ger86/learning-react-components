@@ -16,11 +16,11 @@ export function getUsersThunk(page) {
   };
 }
 
-function getUsersThunkSucceeded(page, users) {
+function getUsersThunkSucceeded(page, result) {
   return {
     type: GET_USERS_SUCCEEDED,
     page,
-    users
+    ...result
   };
 }
 
@@ -31,18 +31,6 @@ const allIds = (state = [], action) => {
         ...state,
         ...action.users.map(singleUser => singleUser.id)
       ]);
-    default:
-      return state;
-  }
-};
-
-const byPage = (state = {}, action) => {
-  switch (action.type) {
-    case GET_USERS_SUCCEEDED:
-      return {
-        ...state,
-        [action.page]: action.users.map(singleUser => singleUser.id)
-      };
     default:
       return state;
   }
@@ -64,9 +52,40 @@ const byId = (state = {}, action) => {
   }
 };
 
-export default combineReducers({ allIds, byId, byPage });
+const feedPages = (state = {}, action) => {
+  switch (action.type) {
+    case GET_USERS_SUCCEEDED:
+      return {
+        ...state,
+        [action.page]: action.users.map(singleUser => singleUser.id)
+      };
+    default:
+      return state;
+  }
+};
+
+const feedSettings = (state = { totalItems: 0, resultsPerPage: 0 }, action) => {
+  switch (action.type) {
+    case GET_USERS_SUCCEEDED:
+      return {
+        totalItems: action.totalResults,
+        resultsPerPage: action.resultsPerPage
+      };
+    default:
+      return state;
+  }
+};
+
+export default combineReducers({
+  allIds,
+  byId,
+  feed: combineReducers({ feedPages, feedSettings })
+});
 
 export const getSingleUserById = (state, id) => state.byId[id];
 export const getAllUsers = state => state.allIds.map(id => state.byId[id]);
 export const getUsersForPage = (state, page) =>
-  state.byPage[page] ? state.byPage[page].map(id => state.byId[id]) : null;
+  state.feed.feedPages[page]
+    ? state.feed.feedPages[page].map(id => state.byId[id])
+    : null;
+export const getFeedSettings = state => state.feed.feedSettings;

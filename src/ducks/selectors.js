@@ -5,3 +5,4 @@ export const getSingleUser = (state, id) =>
   fromUsers.getSingleUserById(state.users, id);
 export const getUsersForPage = (state, page) =>
   fromUsers.getUsersForPage(state.users, page);
+export const getFeedSettings = state => fromUsers.getFeedSettings(state.users);

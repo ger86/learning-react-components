@@ -24,16 +24,14 @@
     "no-unused-vars": 2,
     "react/jsx-uses-react": "error",
     "react/jsx-uses-vars": "error",
-    "react/destructuring-assignment": [
-      1,
-      "always"
-    ],
+    "react/destructuring-assignment": [1, "always"],
     "react/jsx-filename-extension": [2, { "extensions": [".js"] }],
     "no-use-before-define": ["error", { "functions": false }],
     "prettier/prettier": "error",
     "react/prefer-stateless-function": [0],
     "react/forbid-prop-types": 0,
     "no-underscore-dangle": ["error", { "allow": ["_error"] }],
-    "no-plusplus": ["error", { "allowForLoopAfterthoughts": true }]
+    "no-plusplus": ["error", { "allowForLoopAfterthoughts": true }],
+    "no-else-return": ["error", { "allowElseIf": true }]
   }
 }

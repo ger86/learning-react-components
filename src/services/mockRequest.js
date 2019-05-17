@@ -1,11 +1,25 @@
 import { API_URL } from 'Config/consts';
 
+function sleep(ms) {
+  return new Promise(resolve => setTimeout(resolve, ms));
+}
+
 function Request() {}
 
-Request.prototype.get = function get(path, query) {
+Request.prototype.get = async function get(path, query) {
+  await sleep(500);
   if (path === 'users') {
     let users = [];
     const { page } = query;
+    if (page < 0 || page > 8) {
+      return {
+        data: {
+          users: [],
+          totalResults: 37,
+          resultsPerPage: 5
+        }
+      };
+    }
     for (let i = 1; i <= 5; i++) {
       const identifier = 5 * (page - 1) + i;
       users = [
@@ -17,7 +31,13 @@ Request.prototype.get = function get(path, query) {
         }
       ];
     }
-    return { data: users };
+    return {
+      data: {
+        users,
+        totalResults: 37,
+        resultsPerPage: 5
+      }
+    };
   }
   return {};
 };
