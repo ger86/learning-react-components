@@ -1,29 +1,43 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import { Route, Switch, HashRouter } from 'react-router-dom';
+import { Switch, HashRouter } from 'react-router-dom';
 import { Provider } from 'react-redux';
+import PrivateRoute from 'Components/hoc/PrivateRoute';
+import PublicRoute from 'Components/hoc/PublicRoute';
+import * as appRoutes from 'Config/routes';
+import Header from 'Components/common/Header';
+import LoginScene from 'Scenes/LoginScene';
 import UsersScene from 'Scenes/UsersScene';
-import { usersRoute } from 'Config/routes';
 import configureStore from 'Services/configureStore';
+import initFacebook from 'Services/initFacebook';
 import './sass/base/base.sass';
 
+initFacebook();
 const store = configureStore();
 
 ReactDOM.render(
-  <div className="container">
-    <div className="row">
-      <div className="col-8 offset-2">
-        <div className="the-content">
-          <Provider store={store}>
+  <Provider store={store}>
+    <Header />
+    <div className="container">
+      <div className="row">
+        <div className="col-12">
+          <div className="the-content">
             <HashRouter>
               <Switch>
-                <Route path={usersRoute()} component={UsersScene} />
+                <PublicRoute
+                  path={appRoutes.loginRoute()}
+                  component={LoginScene}
+                />
+                <PrivateRoute
+                  path={appRoutes.usersRoute()}
+                  component={UsersScene}
+                />
               </Switch>
             </HashRouter>
-          </Provider>
+          </div>
         </div>
       </div>
     </div>
-  </div>,
+  </Provider>,
   document.getElementById('cloud-district-app')
 );

@@ -63,6 +63,8 @@ class UsersListContainer extends PureComponent {
     }
     return (
       <div>
+        <h1>Lista de usuarios</h1>
+        <p>Aquí puedes ver la lista de usuarios</p>
         {users.map(user => (
           <UserTeaser key={`user-${user.id}`} user={user} />
         ))}
@@ -70,7 +72,7 @@ class UsersListContainer extends PureComponent {
           totalItems={totalItems}
           pageSize={resultsPerPage}
           generateLinkForPage={this.generateLinkForPage}
-          initialPage={page}
+          initialPage={parseInt(page, 10)}
         />
       </div>
     );
@@ -78,11 +80,9 @@ class UsersListContainer extends PureComponent {
 }
 
 export default connect(
-  (state, ownProps) => {
-    return {
-      users: getUsersForPage(state, ownProps.page),
-      ...getFeedSettings(state)
-    };
-  },
+  (state, ownProps) => ({
+    users: getUsersForPage(state, ownProps.page),
+    ...getFeedSettings(state)
+  }),
   { getUsersThunkConnect: getUsersThunk }
 )(UsersListContainer);

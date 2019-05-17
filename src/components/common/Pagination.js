@@ -7,7 +7,7 @@ export default class Pagination extends PureComponent {
     totalItems: PropTypes.number.isRequired,
     generateLinkForPage: PropTypes.func.isRequired,
     pageSize: PropTypes.number,
-    initialPage: PropTypes.oneOfType([PropTypes.number, PropTypes.string])
+    initialPage: PropTypes.number
   };
 
   static defaultProps = {
@@ -128,7 +128,7 @@ export default class Pagination extends PureComponent {
             className="page-link"
             to={generateLinkForPage(pager.currentPage + 1)}
           >
-            Anterior
+            Siguiente
           </Link>
         </li>
         <li

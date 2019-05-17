@@ -7,9 +7,9 @@ const GET_USERS_SUCCEEDED = 'GET_USERS_SUCCEEDED';
 export function getUsersThunk(page) {
   return async dispatch => {
     try {
-      const data = await getUsers(page);
-      dispatch(getUsersThunkSucceeded(page, data));
-      return data;
+      const result = await getUsers(page);
+      dispatch(getUsersThunkSucceeded(page, result));
+      return result;
     } catch (error) {
       throw error;
     }
@@ -29,7 +29,7 @@ const allIds = (state = [], action) => {
     case GET_USERS_SUCCEEDED:
       return arrayUnique([
         ...state,
-        ...action.users.map(singleUser => singleUser.id)
+        ...action.data.map(singleUser => singleUser.id)
       ]);
     default:
       return state;
@@ -41,7 +41,7 @@ const byId = (state = {}, action) => {
     case GET_USERS_SUCCEEDED:
       return {
         ...state,
-        ...action.users.reduce(
+        ...action.data.reduce(
           (ac, singleUser) =>
             Object.assign({}, ac, { [singleUser.id]: singleUser }),
           {}
@@ -57,7 +57,7 @@ const feedPages = (state = {}, action) => {
     case GET_USERS_SUCCEEDED:
       return {
         ...state,
-        [action.page]: action.users.map(singleUser => singleUser.id)
+        [action.page]: action.data.map(singleUser => singleUser.id)
       };
     default:
       return state;

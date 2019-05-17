@@ -1,2 +1,2 @@
-// eslint-disable-next-line import/prefer-default-export
-export const API_URL = '';
+export const API_URL = 'https://reqres.in/api';
+export const FB_ID = '905977006201877';

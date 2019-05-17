@@ -1,9 +1,4 @@
-import request from 'Services/mockRequest';
-
-const extractDataFromResponse = json => json.data;
+import request from 'Services/request';
 
 // eslint-disable-next-line import/prefer-default-export
-export const getUsers = async page => {
-  const response = await request.get('users', { page });
-  return extractDataFromResponse(response);
-};
+export const getUsers = async page => request.get('users', { page });
