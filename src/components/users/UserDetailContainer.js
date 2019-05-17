@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import Loading from 'Components/common/Loading';
 import Alert from 'Components/styled/Alert';
-import UserFull from 'Components/users/UserTeaser';
+import UserDetail from 'Components/users/UserDetail';
 import { usersRoute } from 'Config/routes';
 import { getUserThunk } from 'Ducks/users';
 import { getUserById } from 'Ducks/selectors';
@@ -60,7 +60,7 @@ class UsersListContainer extends PureComponent {
     } else if (user === null) {
       return <Loading>Cargando usuario</Loading>;
     }
-    return <UserFull user={user} />;
+    return <UserDetail user={user} />;
   }
 }
 

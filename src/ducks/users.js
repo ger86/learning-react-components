@@ -7,13 +7,9 @@ const GET_USER_SUCCEEDED = 'GET_USER_SUCCEEDED';
 
 export function getUsersThunk(page) {
   return async dispatch => {
-    try {
-      const result = await getUsers(page);
-      dispatch(getUsersThunkSucceeded(page, result));
-      return result;
-    } catch (error) {
-      throw error;
-    }
+    const result = await getUsers(page);
+    dispatch(getUsersThunkSucceeded(page, result));
+    return result;
   };
 }
 
@@ -27,15 +23,9 @@ function getUsersThunkSucceeded(page, result) {
 
 export function getUserThunk(userId) {
   return async dispatch => {
-    try {
-      const result = await getUser(userId);
-      dispatch(getUserThunkSucceeded(result.data));
-      return result;
-    } catch (error) {
-      console.log("ola");
-      console.log(error);
-      throw error;
-    }
+    const result = await getUser(userId);
+    dispatch(getUserThunkSucceeded(result.data));
+    return result;
   };
 }
 
