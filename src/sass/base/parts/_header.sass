@@ -1,0 +1,53 @@
+.the-header
+  background: $black
+  color: $white
+  font-weight: 700
+
+  &__logo
+    display: inline-block
+    width: 50px
+    height: auto
+
+    @include media-breakpoint-up(md)
+      width: 70px
+
+  &__nav
+    display: flex
+    height: 100%
+    justify-content: flex-end
+    align-items: center
+
+    .btn
+      padding-top: .5rem
+      padding-bottom: .5rem
+      font-weight: bold
+
+    .divider
+      background: $white
+      margin-top: 32px
+      margin-bottom: 32px
+      height: 16px
+      width: 1px
+      margin-right: 2rem
+      margin-left: 2rem
+  
+  &__avatar
+    display: inline-block
+    width: 40px
+    height: auto
+    border-radius: 50%
+
+  .btn-link
+    color: $white
+
+  .dropdown-menu::before
+    content: ''
+    display: block
+    position: absolute
+    width: 0
+    height: 0
+    border-left: 16px solid transparent
+    border-right: 16px solid transparent
+    border-bottom: 16px solid #FFF
+    top: -14px
+    right: 7px

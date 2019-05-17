@@ -96,29 +96,50 @@ export default class Pagination extends PureComponent {
 
     return (
       <ul className="pagination">
-        <li className={pager.currentPage === 1 ? 'disabled' : ''}>
-          <Link to={generateLinkForPage(1)}>Primera</Link>
+        <li
+          className={`page-item ${pager.currentPage === 1 ? 'disabled' : ''}`}
+        >
+          <Link className="page-link" to={generateLinkForPage(1)}>
+            Primera
+          </Link>
         </li>
-        <li className={pager.currentPage === 1 ? 'disabled' : ''}>
-          <Link to={generateLinkForPage(pager.currentPage - 1)}>Anterior</Link>
+        <li className={`page-item {pager.currentPage === 1 ? 'disabled' : ''}`}>
+          <Link
+            className="page-link"
+            to={generateLinkForPage(pager.currentPage - 1)}
+          >
+            Anterior
+          </Link>
         </li>
         {pager.pages.map(page => (
           <li
             key={`page-${page}`}
-            className={pager.currentPage === page ? 'active' : ''}
+            className={`page-item {pager.currentPage === page ? 'active' : ''}`}
           >
-            <Link to={generateLinkForPage(page)}>{page}</Link>
+            <Link className="page-link" to={generateLinkForPage(page)}>
+              {page}
+            </Link>
           </li>
         ))}
         <li
-          className={pager.currentPage === pager.totalPages ? 'disabled' : ''}
+          className={`page-item {pager.currentPage === pager.totalPages ? 'disabled' : ''}`}
         >
-          <Link to={generateLinkForPage(pager.currentPage + 1)}>Anterior</Link>
+          <Link
+            className="page-link"
+            to={generateLinkForPage(pager.currentPage + 1)}
+          >
+            Anterior
+          </Link>
         </li>
         <li
-          className={pager.currentPage === pager.totalPages ? 'disabled' : ''}
+          className={`page-item {pager.currentPage === pager.totalPages ? 'disabled' : ''}`}
         >
-          <Link to={generateLinkForPage(pager.totalPages)}>Última</Link>
+          <Link
+            className="page-link"
+            to={generateLinkForPage(pager.totalPages)}
+          >
+            Última
+          </Link>
         </li>
       </ul>
     );

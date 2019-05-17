@@ -1,14 +1,15 @@
 import React from 'react';
+import ShadowBox from 'Components/styled/ShadowBox';
 import userPropType from 'PropTypes/userPropType';
 
 const UserTeaser = ({ user }) => (
-  <div>
+  <ShadowBox>
     <h3>{user.name}</h3>
     <div>
       <strong>email: </strong>
       {user.email}
     </div>
-  </div>
+  </ShadowBox>
 );
 
 UserTeaser.propTypes = {
