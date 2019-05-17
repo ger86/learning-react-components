@@ -13,7 +13,7 @@ const UserTeaser = ({ user }) => (
     </div>
     <div>
       <Link className="btn btn-primary" to={userDetailRoute(user.id)}>
-        Ver más
+        Editar
       </Link>
     </div>
   </ShadowBox>

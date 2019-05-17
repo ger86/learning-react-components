@@ -71,8 +71,8 @@ class UsersListContainer extends PureComponent {
         <Pagination
           totalItems={totalItems}
           pageSize={resultsPerPage}
+          currentPage={parseInt(page, 10)}
           generateLinkForPage={this.generateLinkForPage}
-          initialPage={parseInt(page, 10)}
         />
       </div>
     );

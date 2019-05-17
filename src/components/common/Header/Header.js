@@ -6,7 +6,11 @@ import './style.sass';
 
 class Header extends PureComponent {
   static propTypes = {
-    user: PropTypes.object.isRequired
+    user: PropTypes.object
+  };
+
+  static defaultProps = {
+    user: null
   };
 
   render() {

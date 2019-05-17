@@ -7,40 +7,16 @@ export default class Pagination extends PureComponent {
     totalItems: PropTypes.number.isRequired,
     generateLinkForPage: PropTypes.func.isRequired,
     pageSize: PropTypes.number,
-    initialPage: PropTypes.number
+    currentPage: PropTypes.number
   };
 
   static defaultProps = {
-    initialPage: 1,
+    currentPage: 1,
     pageSize: 10
   };
 
-  state = { pager: {} };
-
-  componentWillMount() {
-    const { totalItems, initialPage } = this.props;
-    // set page if items array isn't empty
-    if (totalItems > 0) {
-      this.setPage(initialPage);
-    }
-  }
-
-  setPage(page) {
-    const { pager } = this.state;
-
-    if (page < 1 || page > pager.totalPages) {
-      return;
-    }
-
-    // get new pager object for specified page
-    const newPager = this.getPager(page);
-
-    // update state
-    this.setState({ pager: newPager });
-  }
-
-  getPager(currentPage = 1) {
-    const { totalItems, pageSize } = this.props;
+  getPager() {
+    const { totalItems, pageSize, currentPage } = this.props;
 
     // calculate total pages
     const totalPages = Math.ceil(totalItems / pageSize);
@@ -86,8 +62,8 @@ export default class Pagination extends PureComponent {
   }
 
   render() {
-    const { pager } = this.state;
     const { generateLinkForPage } = this.props;
+    const pager = this.getPager();
 
     if (!pager.pages || pager.pages.length <= 1) {
       // don't display pager if there is only 1 page
@@ -103,7 +79,9 @@ export default class Pagination extends PureComponent {
             Primera
           </Link>
         </li>
-        <li className={`page-item {pager.currentPage === 1 ? 'disabled' : ''}`}>
+        <li
+          className={`page-item ${pager.currentPage === 1 ? 'disabled' : ''}`}
+        >
           <Link
             className="page-link"
             to={generateLinkForPage(pager.currentPage - 1)}
@@ -114,7 +92,9 @@ export default class Pagination extends PureComponent {
         {pager.pages.map(page => (
           <li
             key={`page-${page}`}
-            className={`page-item {pager.currentPage === page ? 'active' : ''}`}
+            className={`page-item ${
+              pager.currentPage === page ? 'active' : ''
+            }`}
           >
             <Link className="page-link" to={generateLinkForPage(page)}>
               {page}
@@ -122,7 +102,9 @@ export default class Pagination extends PureComponent {
           </li>
         ))}
         <li
-          className={`page-item {pager.currentPage === pager.totalPages ? 'disabled' : ''}`}
+          className={`page-item ${
+            pager.currentPage === pager.totalPages ? 'disabled' : ''
+          }`}
         >
           <Link
             className="page-link"
@@ -132,7 +114,9 @@ export default class Pagination extends PureComponent {
           </Link>
         </li>
         <li
-          className={`page-item {pager.currentPage === pager.totalPages ? 'disabled' : ''}`}
+          className={`page-item ${
+            pager.currentPage === pager.totalPages ? 'disabled' : ''
+          }`}
         >
           <Link
             className="page-link"

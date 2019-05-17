@@ -1,7 +1,7 @@
 import queryString from 'query-string';
 
 const USERS_ROUTE = '/users';
-const USER_DETAIL = '/users/:id';
+const USER_DETAIL = '/user';
 const LOGIN_ROUTE = '/login';
 
 // eslint-disable-next-line import/prefer-default-export

@@ -1,8 +1,9 @@
 import { combineReducers } from 'redux';
 import arrayUnique from 'Utils/arrayUnique';
-import { getUsers } from 'Services/api/users';
+import { getUsers, getUser } from 'Services/api/users';
 
 const GET_USERS_SUCCEEDED = 'GET_USERS_SUCCEEDED';
+const GET_USER_SUCCEEDED = 'GET_USER_SUCCEEDED';
 
 export function getUsersThunk(page) {
   return async dispatch => {
@@ -24,6 +25,27 @@ function getUsersThunkSucceeded(page, result) {
   };
 }
 
+export function getUserThunk(userId) {
+  return async dispatch => {
+    try {
+      const result = await getUser(userId);
+      dispatch(getUserThunkSucceeded(result.data));
+      return result;
+    } catch (error) {
+      console.log("ola");
+      console.log(error);
+      throw error;
+    }
+  };
+}
+
+function getUserThunkSucceeded(user) {
+  return {
+    type: GET_USER_SUCCEEDED,
+    user
+  };
+}
+
 const allIds = (state = [], action) => {
   switch (action.type) {
     case GET_USERS_SUCCEEDED:
@@ -31,6 +53,8 @@ const allIds = (state = [], action) => {
         ...state,
         ...action.data.map(singleUser => singleUser.id)
       ]);
+    case GET_USER_SUCCEEDED:
+      return arrayUnique([...state, action.user.id]);
     default:
       return state;
   }
@@ -46,6 +70,11 @@ const byId = (state = {}, action) => {
             Object.assign({}, ac, { [singleUser.id]: singleUser }),
           {}
         )
+      };
+    case GET_USER_SUCCEEDED:
+      return {
+        ...state,
+        [action.user.id]: action.user
       };
     default:
       return state;
@@ -68,8 +97,8 @@ const feedSettings = (state = { totalItems: 0, resultsPerPage: 0 }, action) => {
   switch (action.type) {
     case GET_USERS_SUCCEEDED:
       return {
-        totalItems: action.totalResults,
-        resultsPerPage: action.resultsPerPage
+        totalItems: action.total,
+        resultsPerPage: action.per_page
       };
     default:
       return state;
@@ -82,7 +111,7 @@ export default combineReducers({
   feed: combineReducers({ feedPages, feedSettings })
 });
 
-export const getSingleUserById = (state, id) => state.byId[id];
+export const getUserById = (state, id) => state.byId[id];
 export const getAllUsers = state => state.allIds.map(id => state.byId[id]);
 export const getUsersForPage = (state, page) =>
   state.feed.feedPages[page]
