@@ -2,7 +2,7 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import ShadowBox from 'Components/styled/ShadowBox';
 import userPropType from 'PropTypes/userPropType';
-import { userDetailRoute } from 'Config/routes';
+import { userEditRoute } from 'Config/routes';
 
 const UserTeaser = ({ user }) => (
   <ShadowBox>
@@ -12,7 +12,7 @@ const UserTeaser = ({ user }) => (
       {user.email}
     </div>
     <div>
-      <Link className="btn btn-primary" to={userDetailRoute(user.id)}>
+      <Link className="btn btn-primary" to={userEditRoute(user.id)}>
         Editar
       </Link>
     </div>

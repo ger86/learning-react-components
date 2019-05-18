@@ -1,17 +1,15 @@
 import queryString from 'query-string';
 
-const USERS_ROUTE = '/users';
-const USER_DETAIL = '/user';
-const LOGIN_ROUTE = '/login';
-
 // eslint-disable-next-line import/prefer-default-export
 export const usersRoute = page => {
+  const basePath = '/users';
   if (!page) {
-    return USERS_ROUTE;
+    return basePath;
   }
-  return `${USERS_ROUTE}?${queryString.stringify({ page })}`;
+  return `${basePath}?${queryString.stringify({ page })}`;
 };
 
-export const loginRoute = () => LOGIN_ROUTE;
+export const loginRoute = () => '/login';
 
-export const userDetailRoute = (userId = ':id') => `${USER_DETAIL}/${userId}`;
+export const userDetailRoute = (userId = ':id') => `/user/${userId}`;
+export const userEditRoute = (userId = ':id') => `/user/${userId}/edit`;

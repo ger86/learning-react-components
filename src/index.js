@@ -10,6 +10,7 @@ import Header from 'Components/common/Header';
 import LoginScene from 'Scenes/LoginScene';
 import UserDetailScene from 'Scenes/UserDetailScene';
 import UsersScene from 'Scenes/UsersScene';
+import UserEditScene from 'Scenes/UserEditScene';
 import configureStore from 'Services/configureStore';
 import initFacebook from 'Services/initFacebook';
 import './sass/base/base.sass';
@@ -34,6 +35,10 @@ ReactDOM.render(
                   <PrivateRoute
                     path={appRoutes.usersRoute()}
                     component={UsersScene}
+                  />
+                  <PrivateRoute
+                    path={appRoutes.userEditRoute()}
+                    component={UserEditScene}
                   />
                   <PrivateRoute
                     path={appRoutes.userDetailRoute()}
