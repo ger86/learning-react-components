@@ -1,6 +1,7 @@
 import getUserInfoFromFacebook from 'Services/getUserInfoFromFacebook';
 
 const LOGIN_SUCCEEDED = 'LOGIN_SUCCEEDED';
+const LOGOUT = 'LOGOUT';
 
 export function facebookLoginThunk() {
   return async dispatch => {
@@ -23,6 +24,12 @@ export function facebookLoginThunk() {
   };
 }
 
+export function logoutAction() {
+  return {
+    type: LOGOUT
+  };
+}
+
 function loginSucceeded(user) {
   return {
     type: LOGIN_SUCCEEDED,
@@ -34,6 +41,8 @@ export default (state = { user: null }, action) => {
   switch (action.type) {
     case LOGIN_SUCCEEDED:
       return { ...state, user: action.user };
+    case LOGOUT:
+      return { user: null };
     default:
       return state;
   }

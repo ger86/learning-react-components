@@ -1,6 +1,8 @@
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
+import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
+import { logoutRoute, usersRoute, userCreateRoute } from 'Config/routes';
 import { getCurrentUser } from 'Ducks/selectors';
 import './style.sass';
 
@@ -18,18 +20,26 @@ class Header extends PureComponent {
     return (
       <header className="the-header">
         <div className="container">
-          <div className="row">
-            <div className="col-3">Cloud District</div>
-            <div className="col-3 offset-6">
-              {user && (
-                <div className="user">
-                  <div className="user__image">
-                    <img src={user.picture.data.url} alt={user.name} />
-                  </div>
-                  <div className="user__name">{user.name}</div>
-                </div>
-              )}
+          <div className="the-header__wrapper">
+            <div className="header-brand">
+              <Link to={usersRoute()}>Cloud District</Link>
             </div>
+            {user && (
+              <div className="header-menu">
+                <Link className="header-menu__element" to={userCreateRoute()}>
+                  Crear usuario
+                </Link>
+                <div className="header-menu__element header-menu__image">
+                  <img src={user.picture.data.url} alt={user.name} />
+                </div>
+                <div className="header-menu__element header-menu__name">
+                  {user.name}
+                </div>
+                <Link className="header-menu__element" to={logoutRoute()}>
+                  Cerrar sesión
+                </Link>
+              </div>
+            )}
           </div>
         </div>
       </header>

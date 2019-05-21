@@ -3,9 +3,8 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { getUsersThunk } from 'Ducks/users';
 import Loading from 'Components/common/Loading';
-import Pagination from 'Components/common/Pagination';
 import Alert from 'Components/styled/Alert';
-import UserTeaser from 'Components/users/UserTeaser';
+import UserList from 'Components/users/UserList';
 import { getUsersForPage, getFeedSettings } from 'Ducks/selectors';
 import userPropType from 'PropTypes/userPropType';
 import { usersRoute } from 'Config/routes';
@@ -28,7 +27,7 @@ class UsersListContainer extends PureComponent {
     error: false
   };
 
-  async componentDidMount() {
+  componentDidMount() {
     this.requestUsers();
   }
 
@@ -62,19 +61,13 @@ class UsersListContainer extends PureComponent {
       return <Alert error>No hay resultados</Alert>;
     }
     return (
-      <div>
-        <h1>Lista de usuarios</h1>
-        <p>Aquí puedes ver la lista de usuarios</p>
-        {users.map(user => (
-          <UserTeaser key={`user-${user.id}`} user={user} />
-        ))}
-        <Pagination
-          totalItems={totalItems}
-          pageSize={resultsPerPage}
-          currentPage={parseInt(page, 10)}
-          generateLinkForPage={this.generateLinkForPage}
-        />
-      </div>
+      <UserList
+        users={users}
+        totalItems={totalItems}
+        resultsPerPage={resultsPerPage}
+        page={parseInt(page, 10)}
+        generateLinkForPage={this.generateLinkForPage}
+      />
     );
   }
 }

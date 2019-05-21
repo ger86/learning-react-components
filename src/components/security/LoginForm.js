@@ -1,17 +1,14 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import FacebookButton from 'Components/styled/FacebookButton';
 
 const LoginForm = ({ onFacebookClick }) => (
   <>
     <h1>¡Bienvenido!</h1>
     <p>Inicia sesión con Facebook para ver la lista de usuarios</p>
-    <button
-      type="button"
-      className="button button-block"
-      onClick={onFacebookClick}
-    >
+    <FacebookButton type="button" onClick={onFacebookClick}>
       Iniciar sesión con Facebook
-    </button>
+    </FacebookButton>
   </>
 );
 

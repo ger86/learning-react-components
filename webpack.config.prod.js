@@ -1,29 +1,21 @@
 const merge = require('webpack-merge');
 const webpack = require('webpack');
+const { BundleAnalyzerPlugin } = require('webpack-bundle-analyzer');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
-const UglifyJSPlugin = require('uglifyjs-webpack-plugin');
+const UglifyJsPlugin = require('uglifyjs-webpack-plugin');
 const baseConfig = require('./webpack.config.js');
 
 module.exports = merge(baseConfig, {
   devtool: 'eval-source-map',
-
+  optimization: {
+    minimizer: [new UglifyJsPlugin()]
+  },
   plugins: [
-    new UglifyJSPlugin({
-      uglifyOptions: {
-        ecma: 8,
-        compress: {
-          dead_code: true,
-          inline: false,
-          global_defs: {
-            'process.env.NODE_ENV': 'production'
-          }
-        }
-      }
-    }),
     new webpack.DefinePlugin({
       'process.env.NODE_ENV': JSON.stringify('production')
     }),
-    new MiniCssExtractPlugin('styles.css')
+    new MiniCssExtractPlugin(),
+    //new BundleAnalyzerPlugin({ analyzerPort: 7777 })
   ],
 
   module: {
@@ -33,7 +25,10 @@ module.exports = merge(baseConfig, {
         test: /(\.sass|\.css|\.scss)$/,
         use: [
           {
-            loader: 'style-loader'
+            loader: MiniCssExtractPlugin.loader,
+            options: {
+              hmr: process.env.NODE_ENV === 'development'
+            }
           },
           {
             loader: 'css-loader'
@@ -44,7 +39,7 @@ module.exports = merge(baseConfig, {
           {
             loader: 'sass-loader',
             options: {
-              includePaths: ['./node_modules', './src/style'],
+              includePaths: ['./node_modules', './src/sass'],
               sourceMap: true
             }
           }

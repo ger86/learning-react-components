@@ -6,20 +6,18 @@ import { loginRoute } from 'Config/routes';
 import { isAuthenticated } from 'Ducks/selectors';
 
 // eslint-disable-next-line no-shadow
-const PrivateRoute = ({ component: Component, isAuthenticated, ...rest }) => {
-  return (
-    <Route
-      {...rest}
-      render={props =>
-        isAuthenticated ? (
-          <Component {...props} />
-        ) : (
-          <Redirect to={loginRoute()} />
-        )
-      }
-    />
-  );
-};
+const PrivateRoute = ({ component: Component, isAuthenticated, ...rest }) => (
+  <Route
+    {...rest}
+    render={props =>
+      isAuthenticated ? (
+        <Component {...props} />
+      ) : (
+        <Redirect to={loginRoute()} />
+      )
+    }
+  />
+);
 
 PrivateRoute.propTypes = {
   component: PropTypes.oneOfType([PropTypes.object, PropTypes.func]).isRequired,

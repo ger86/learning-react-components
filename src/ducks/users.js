@@ -1,10 +1,11 @@
 import { combineReducers } from 'redux';
 import arrayUnique from 'Utils/arrayUnique';
-import { getUsers, getUser, patchUser } from 'Services/api/users';
+import { getUsers, getUser, patchUser, postUser } from 'Services/api/users';
 
 const GET_USERS_SUCCEEDED = 'GET_USERS_SUCCEEDED';
 const GET_USER_SUCCEEDED = 'GET_USER_SUCCEEDED';
 const PATCH_USER_SUCCEEDED = 'PATCH_USER_SUCCEEDED';
+const POST_USER_SUCCEEDED = 'POST_USER_SUCCEEDED';
 
 export function getUsersThunk(page) {
   return async dispatch => {
@@ -52,6 +53,21 @@ function patchUserThunkSucceeded(user) {
   };
 }
 
+export function postUserThunk(user) {
+  return async dispatch => {
+    const result = await postUser(user);
+    dispatch(postUserThunkSucceeded(result));
+    return result;
+  };
+}
+
+function postUserThunkSucceeded(user) {
+  return {
+    type: POST_USER_SUCCEEDED,
+    user
+  };
+}
+
 const allIds = (state = [], action) => {
   switch (action.type) {
     case GET_USERS_SUCCEEDED:
@@ -80,6 +96,7 @@ const byId = (state = {}, action) => {
       };
     case GET_USER_SUCCEEDED:
     case PATCH_USER_SUCCEEDED:
+    case POST_USER_SUCCEEDED:
       return {
         ...state,
         [action.user.id]: action.user

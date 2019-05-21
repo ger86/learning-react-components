@@ -1,13 +1,14 @@
 const webpack = require('webpack');
 const path = require('path');
 const HtmlWebPackPlugin = require('html-webpack-plugin');
+const CleanWebpackPlugin = require('clean-webpack-plugin');
 
 module.exports = {
   entry: ['./src/index.js'],
   output: {
     path: path.resolve(__dirname, 'build'),
     publicPath: '/',
-    filename: 'bundle.js'
+    filename: 'bundle.[hash].js'
   },
   module: {
     rules: [
@@ -28,12 +29,14 @@ module.exports = {
       PropTypes: path.resolve(__dirname, 'src/prop-types/'),
       Scenes: path.resolve(__dirname, 'src/scenes/'),
       Services: path.resolve(__dirname, 'src/services/'),
-      Utils: path.resolve(__dirname, 'src/utils/'),
+      Utils: path.resolve(__dirname, 'src/utils/')
     }
   },
   plugins: [
     new webpack.EnvironmentPlugin(['NODE_ENV']),
+    new CleanWebpackPlugin(),
     new HtmlWebPackPlugin({
+      title: 'Cloud District',
       template: './src/index.html',
       filename: './index.html'
     })

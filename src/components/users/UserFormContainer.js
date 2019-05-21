@@ -26,7 +26,7 @@ export default class UserFormContainer extends PureComponent {
     const { userModel } = this.state;
     this.setState({ sending: true });
     await onSubmit(userModel);
-    this.setState({ sending: false, error: null });
+    this.setState({ sending: false, error: null, success: true });
   };
 
   renderError = () => {
@@ -36,6 +36,11 @@ export default class UserFormContainer extends PureComponent {
         {error.code === 404 ? 'No se encontró el usuario' : error.message}
       </Alert>
     ) : null;
+  };
+
+  renderSuccess = () => {
+    const { success } = this.state;
+    return success ? <Alert success>Formulario enviado con éxito</Alert> : null;
   };
 
   onChangeName = event => {
@@ -57,6 +62,7 @@ export default class UserFormContainer extends PureComponent {
     return (
       <>
         {this.renderError()}
+        {this.renderSuccess()}
         <form onSubmit={this.onSubmit}>
           <div className="form-group">
             <label htmlFor="first_name">Nombre</label>

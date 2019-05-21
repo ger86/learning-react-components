@@ -1,23 +1,20 @@
-import React, { PureComponent } from 'react';
+import React from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { facebookLoginThunk } from 'Ducks/security';
 import LoginForm from 'Components/security/LoginForm';
 
-class LoginFormContainer extends PureComponent {
-  static propTypes = {
-    facebookLoginThunkConnect: PropTypes.func.isRequired
-  };
-
-  onFacebookClick = () => {
+const LoginFormContainer = ({ facebookLoginThunkConnect }) => {
+  const onFacebookClick = () => {
     // eslint-disable-next-line react/destructuring-assignment
-    this.props.facebookLoginThunkConnect();
+    facebookLoginThunkConnect();
   };
+  return <LoginForm onFacebookClick={onFacebookClick} />;
+};
 
-  render() {
-    return <LoginForm onFacebookClick={this.onFacebookClick} />;
-  }
-}
+LoginFormContainer.propTypes = {
+  facebookLoginThunkConnect: PropTypes.func.isRequired
+};
 
 export default connect(
   null,

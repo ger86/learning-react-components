@@ -7,12 +7,12 @@ import { userDetailRoute } from 'Config/routes';
 const UserTeaser = ({ user }) => (
   <ShadowBox>
     <h3>{`${user.first_name} ${user.last_name}`}</h3>
-    <div>
+    <p>
       <strong>email: </strong>
       {user.email}
-    </div>
+    </p>
     <div>
-      <Link className="btn btn-primary" to={userDetailRoute(user.id)}>
+      <Link className="btn btn-outline-primary" to={userDetailRoute(user.id)}>
         Ver más
       </Link>
     </div>

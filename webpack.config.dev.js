@@ -26,7 +26,7 @@ module.exports = merge(baseConfig, {
           {
             loader: 'sass-loader',
             options: {
-              includePaths: ['./node_modules', './src/style'],
+              includePaths: ['./node_modules', './src/sass'],
               sourceMap: true
             }
           }
