@@ -6,7 +6,7 @@ import { usersRoute } from 'Config/routes';
 import { isAuthenticated } from 'Ducks/selectors';
 
 // eslint-disable-next-line no-shadow
-const PrivateRoute = ({ component: Component, isAuthenticated, ...rest }) => (
+const PublicRoute = ({ component: Component, isAuthenticated, ...rest }) => (
   <Route
     {...rest}
     render={props =>
@@ -19,15 +19,15 @@ const PrivateRoute = ({ component: Component, isAuthenticated, ...rest }) => (
   />
 );
 
-PrivateRoute.propTypes = {
+PublicRoute.propTypes = {
   component: PropTypes.func.isRequired,
   isAuthenticated: PropTypes.bool
 };
 
-PrivateRoute.defaultProps = {
+PublicRoute.defaultProps = {
   isAuthenticated: false
 };
 
 export default connect(state => ({
   isAuthenticated: isAuthenticated(state)
-}))(PrivateRoute);
+}))(PublicRoute);
