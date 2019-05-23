@@ -6,7 +6,8 @@ export const getUserById = (state, id) =>
   fromUsers.getUserById(state.users, id);
 export const getUsersForPage = (state, page) =>
   fromUsers.getUsersForPage(state.users, page);
-export const getFeedSettings = state => fromUsers.getFeedSettings(state.users);
+export const getUsersFeedState = state =>
+  fromUsers.getUsersFeedState(state.users);
 
 export const getCurrentUser = state =>
   fromSecurity.getCurrentUser(state.security);

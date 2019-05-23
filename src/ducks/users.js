@@ -2,16 +2,31 @@ import { combineReducers } from 'redux';
 import arrayUnique from 'Utils/arrayUnique';
 import { getUsers, getUser, patchUser, postUser } from 'Services/api/users';
 
+const GET_USERS_STARTED = 'GET_USERS_STARTED';
 const GET_USERS_SUCCEEDED = 'GET_USERS_SUCCEEDED';
+const GET_USERS_FAILED = 'GET_USERS_FAILED';
+
 const GET_USER_SUCCEEDED = 'GET_USER_SUCCEEDED';
 const PATCH_USER_SUCCEEDED = 'PATCH_USER_SUCCEEDED';
 const POST_USER_SUCCEEDED = 'POST_USER_SUCCEEDED';
 
 export function getUsersThunk(page) {
   return async dispatch => {
-    const result = await getUsers(page);
-    dispatch(getUsersThunkSucceeded(page, result));
-    return result;
+    dispatch(getUsersThunkStarted());
+    try {
+      const result = await getUsers(page);
+      dispatch(getUsersThunkSucceeded(page, result));
+      return result;
+    } catch (exception) {
+      dispatch(getUsersThunkFailed());
+      throw exception;
+    }
+  };
+}
+
+function getUsersThunkStarted() {
+  return {
+    type: GET_USERS_STARTED
   };
 }
 
@@ -20,6 +35,12 @@ function getUsersThunkSucceeded(page, result) {
     type: GET_USERS_SUCCEEDED,
     page,
     ...result
+  };
+}
+
+function getUsersThunkFailed() {
+  return {
+    type: GET_USERS_FAILED
   };
 }
 
@@ -118,12 +139,29 @@ const feedPages = (state = {}, action) => {
   }
 };
 
-const feedSettings = (state = { totalItems: 0, resultsPerPage: 0 }, action) => {
+const feedState = (
+  state = { totalItems: 0, resultsPerPage: 0, loading: false, error: null },
+  action
+) => {
   switch (action.type) {
     case GET_USERS_SUCCEEDED:
       return {
         totalItems: action.total,
-        resultsPerPage: action.per_page
+        resultsPerPage: action.per_page,
+        loading: false,
+        error: null
+      };
+    case GET_USERS_STARTED:
+      return {
+        ...state,
+        loading: true,
+        error: null
+      };
+    case GET_USERS_FAILED:
+      return {
+        ...state,
+        loading: false,
+        error: action.payload
       };
     default:
       return state;
@@ -133,7 +171,7 @@ const feedSettings = (state = { totalItems: 0, resultsPerPage: 0 }, action) => {
 export default combineReducers({
   allIds,
   byId,
-  feed: combineReducers({ feedPages, feedSettings })
+  feed: combineReducers({ feedPages, feedState })
 });
 
 export const getUserById = (state, id) => state.byId[id];
@@ -142,4 +180,4 @@ export const getUsersForPage = (state, page) =>
   state.feed.feedPages[page]
     ? state.feed.feedPages[page].map(id => state.byId[id])
     : null;
-export const getFeedSettings = state => state.feed.feedSettings;
+export const getUsersFeedState = state => state.feed.feedState;

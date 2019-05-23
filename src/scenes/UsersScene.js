@@ -5,5 +5,5 @@ import UsersListContainer from 'Components/users/UsersListContainer';
 
 export default withRouter(({ location }) => {
   const values = queryString.parse(location.search);
-  return <UsersListContainer page={values.page || '1'} />;
+  return <UsersListContainer currentPage={values.page || '1'} />;
 });

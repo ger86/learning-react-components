@@ -2,29 +2,22 @@ import React, { PureComponent } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { getUsersThunk } from 'Ducks/users';
-import Loading from 'Components/common/Loading';
-import Alert from 'Components/styled/Alert';
 import UserList from 'Components/users/UserList';
-import { getUsersForPage, getFeedSettings } from 'Ducks/selectors';
+import { getUsersForPage, getUsersFeedState } from 'Ducks/selectors';
 import userPropType from 'PropTypes/userPropType';
 import { usersRoute } from 'Config/routes';
 
 class UsersListContainer extends PureComponent {
   static propTypes = {
     getUsersThunkConnect: PropTypes.func.isRequired,
-    totalItems: PropTypes.number.isRequired,
-    resultsPerPage: PropTypes.number.isRequired,
+    feedState: PropTypes.object.isRequired,
     users: PropTypes.arrayOf(userPropType),
-    page: PropTypes.string
+    currentPage: PropTypes.string
   };
 
   static defaultProps = {
-    page: '1',
+    currentPage: '1',
     users: []
-  };
-
-  state = {
-    error: false
   };
 
   componentDidMount() {
@@ -32,40 +25,30 @@ class UsersListContainer extends PureComponent {
   }
 
   componentDidUpdate(prevProps) {
-    const { page } = this.props;
-    if (prevProps.page !== page) {
+    const { currentPage } = this.props;
+    if (prevProps.currentPage !== currentPage) {
       this.requestUsers();
     }
   }
 
   requestUsers = async () => {
-    const { page } = this.props;
+    const { currentPage } = this.props;
     try {
       // eslint-disable-next-line react/destructuring-assignment
-      await this.props.getUsersThunkConnect(page);
-    } catch (error) {
-      this.setState({ error });
-    }
+      await this.props.getUsersThunkConnect(currentPage);
+      // eslint-disable-next-line no-empty
+    } catch (error) {}
   };
 
   generateLinkForPage = page => usersRoute(page);
 
   render() {
-    const { error } = this.state;
-    const { users, totalItems, resultsPerPage, page } = this.props;
-    if (error) {
-      return <Alert error>{error.message}</Alert>;
-    } else if (users === null) {
-      return <Loading>Cargando usuarios</Loading>;
-    } else if (users.length === 0) {
-      return <Alert error>No hay resultados</Alert>;
-    }
+    const { users, feedState, currentPage } = this.props;
     return (
       <UserList
         users={users}
-        totalItems={totalItems}
-        resultsPerPage={resultsPerPage}
-        page={parseInt(page, 10)}
+        feedState={feedState}
+        currentPage={parseInt(currentPage, 10)}
         generateLinkForPage={this.generateLinkForPage}
       />
     );
@@ -74,8 +57,8 @@ class UsersListContainer extends PureComponent {
 
 export default connect(
   (state, ownProps) => ({
-    users: getUsersForPage(state, ownProps.page),
-    ...getFeedSettings(state)
+    users: getUsersForPage(state, ownProps.currentPage),
+    feedState: getUsersFeedState(state)
   }),
   { getUsersThunkConnect: getUsersThunk }
 )(UsersListContainer);
