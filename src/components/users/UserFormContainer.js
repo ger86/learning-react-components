@@ -29,8 +29,12 @@ export default class UserFormContainer extends PureComponent {
     const { onSubmit } = this.props;
     const { userModel } = this.state;
     this.setState({ sending: true });
-    await onSubmit(userModel);
-    this.setState({ sending: false, error: null, success: true });
+    try {
+      await onSubmit(userModel);
+      this.setState({ sending: false, error: null, success: true });
+    } catch (exception) {
+      this.setState({ sending: false, success: false, error: exception });
+    }
   };
 
   onChangeName = event => {
@@ -54,7 +58,7 @@ export default class UserFormContainer extends PureComponent {
         success={success}
         error={error}
         sending={sending}
-        user={userModel}
+        userModel={userModel}
         onChangeEmail={this.onChangeEmail}
         onChangeName={this.onChangeName}
         onSubmit={this.onSubmitForm}

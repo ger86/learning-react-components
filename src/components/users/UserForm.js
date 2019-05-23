@@ -10,7 +10,7 @@ const UserForm = ({
   onChangeName,
   onChangeEmail,
   onSubmit,
-  user
+  userModel
 }) => (
   <>
     {error && (
@@ -28,7 +28,7 @@ const UserForm = ({
           name="first_name"
           className="form-control"
           onChange={onChangeName}
-          value={user.first_name}
+          value={userModel.first_name}
         />
       </div>
       <div className="form-group">
@@ -39,7 +39,7 @@ const UserForm = ({
           name="email"
           className="form-control"
           onChange={onChangeEmail}
-          value={user.email}
+          value={userModel.email}
         />
       </div>
       <button type="submit" className="btn btn-primary">
@@ -56,7 +56,7 @@ UserForm.propTypes = {
   onSubmit: PropTypes.func.isRequired,
   success: PropTypes.bool.isRequired,
   sending: PropTypes.bool.isRequired,
-  user: userPropType.isRequired,
+  userModel: userPropType.isRequired,
   error: PropTypes.object
 };
 
