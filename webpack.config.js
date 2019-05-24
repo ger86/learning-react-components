@@ -36,7 +36,7 @@ module.exports = {
     new webpack.EnvironmentPlugin(['NODE_ENV']),
     new CleanWebpackPlugin(),
     new HtmlWebPackPlugin({
-      title: 'Cloud District',
+      title: 'Latte and Code',
       template: './src/index.html',
       filename: './index.html'
     })
