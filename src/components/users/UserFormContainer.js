@@ -5,7 +5,7 @@ import UserForm from 'Components/users/UserForm';
 
 export default class UserFormContainer extends PureComponent {
   static propTypes = {
-    onSubmit: PropTypes.func.isRequired,
+    sendForm: PropTypes.func.isRequired,
     user: userPropType
   };
 
@@ -24,13 +24,13 @@ export default class UserFormContainer extends PureComponent {
     success: false
   };
 
-  onSubmitForm = async event => {
+  onSubmit = async event => {
     event.preventDefault();
-    const { onSubmit } = this.props;
+    const { sendForm } = this.props;
     const { userModel } = this.state;
     this.setState({ sending: true });
     try {
-      await onSubmit(userModel);
+      await sendForm(userModel);
       this.setState({ sending: false, error: null, success: true });
     } catch (exception) {
       this.setState({ sending: false, success: false, error: exception });
@@ -61,7 +61,7 @@ export default class UserFormContainer extends PureComponent {
         userModel={userModel}
         onChangeEmail={this.onChangeEmail}
         onChangeName={this.onChangeName}
-        onSubmit={this.onSubmitForm}
+        onSubmit={this.onSubmit}
       />
     );
   }

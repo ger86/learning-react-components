@@ -1,15 +1,12 @@
 import React, { PureComponent } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import Loading from 'Components/common/Loading';
-import Alert from 'Components/styled/Alert';
 import UserDetail from 'Components/users/UserDetail';
-import { usersRoute } from 'Config/routes';
 import { getUserThunk } from 'Ducks/users';
 import { getUserById } from 'Ducks/selectors';
 import userPropType from 'PropTypes/userPropType';
 
-class UsersListContainer extends PureComponent {
+class UserDetailContainer extends PureComponent {
   static propTypes = {
     getUserThunkConnect: PropTypes.func.isRequired,
     user: userPropType,
@@ -21,6 +18,7 @@ class UsersListContainer extends PureComponent {
   };
 
   state = {
+    loading: false,
     error: null
   };
 
@@ -38,29 +36,19 @@ class UsersListContainer extends PureComponent {
   requestUser = async () => {
     const { userId } = this.props;
     try {
+      this.setState({ loading: true, error: null });
       // eslint-disable-next-line react/destructuring-assignment
       await this.props.getUserThunkConnect(userId);
-      this.setState({ error: null });
+      this.setState({ loading: false, error: null });
     } catch (error) {
-      this.setState({ error });
+      this.setState({ error, loading: false });
     }
   };
 
-  generateLinkForPage = page => usersRoute(page);
-
   render() {
-    const { error } = this.state;
     const { user } = this.props;
-    if (error) {
-      return (
-        <Alert error>
-          {error.code === 404 ? 'No se encontró el usuario' : error.message}
-        </Alert>
-      );
-    } else if (user === null) {
-      return <Loading>Cargando usuario</Loading>;
-    }
-    return <UserDetail user={user} />;
+    const { loading, error } = this.state;
+    return <UserDetail user={user} state={{ loading, error }} />;
   }
 }
 
@@ -69,4 +57,4 @@ export default connect(
     user: getUserById(state, ownProps.userId)
   }),
   { getUserThunkConnect: getUserThunk }
-)(UsersListContainer);
+)(UserDetailContainer);

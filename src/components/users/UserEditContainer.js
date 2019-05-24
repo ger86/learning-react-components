@@ -60,7 +60,7 @@ class UserEditContainer extends PureComponent {
     } else if (user === null) {
       return <Loading>Cargando usuario</Loading>;
     }
-    return <UserFormContainer user={user} onSubmit={this.onSubmit} />;
+    return <UserFormContainer user={user} sendForm={this.onSubmit} />;
   }
 }
 

@@ -4,7 +4,7 @@ import ShadowBox from 'Components/styled/ShadowBox';
 import userPropType from 'PropTypes/userPropType';
 import { userDetailRoute } from 'Config/routes';
 
-const UserTeaser = ({ user }) => (
+const UserDetail = ({ user }) => (
   <ShadowBox>
     <h3>{`${user.first_name} ${user.last_name}`}</h3>
     <p>
@@ -19,8 +19,8 @@ const UserTeaser = ({ user }) => (
   </ShadowBox>
 );
 
-UserTeaser.propTypes = {
+UserDetail.propTypes = {
   user: userPropType.isRequired
 };
 
-export default UserTeaser;
+export default UserDetail;
